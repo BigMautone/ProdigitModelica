@@ -1,0 +1,1 @@
+rm *.c | rm *.o | rm *.h | rm *.json | rm *.xml | rm *.libs | rm *.makefile | rm *.mat | rm *.log | rm System

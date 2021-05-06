@@ -1,0 +1,34 @@
+//Load model
+loadModel(Modelica);
+getErrorString();
+
+//Load files
+loadFile("randomGenerator.mo");
+getErrorString();
+
+loadFile("connectors.mo");
+getErrorString();
+
+loadFile("aule.mo");
+getErrorString();
+
+loadFile("studenti.mo");
+getErrorString();
+
+loadFile("gomp.mo");
+getErrorString();
+
+loadFile("prodigit.mo");
+getErrorString();
+
+loadFile("MonitorFunctional.mo");
+getErrorString();
+
+loadFile("system.mo");
+getErrorString();
+
+simulate(System, stopTime=120);
+getErrorString();
+
+plot({prodigit.maxPosti, gomp.aulaAgibile_out, prodigit.aulaAgibile, prodigit.studenteAbilitato, prodigit.prenotati, prodigit.opStudente, funz.vincolo}, externalWindow = true);
+getErrorString();
