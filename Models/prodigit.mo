@@ -2,11 +2,14 @@ block Prodigit
 
 	parameter Real T = 0.75; // Tempo di aggiornamento di prodigit := 45 minuti
 	
-	NumberGenerator r(samplePeriod=T, globalSeed=450, localSeed=52200);
+	NumberGenerator r_down(samplePeriod=T, globalSeed=450, localSeed=52200);
 	
 	Integer maxPosti; //numero massimo posti dell'aula selezionata
 	Integer prenotati; //studenti prenotati
-	
+	Boolean prodDown;
+
+	//Campi info gomp
+	InputBool gompDown;
 
 	//Campi info aula
 	
@@ -19,7 +22,18 @@ block Prodigit
 	InputBool opStudente; //Se true prenota, altrimenti cancella
 	
 	//Campi output
+	
+	//Numero studenti prenotati
 	OutputInt studPren; 
+	
+	//Stato matricola dello studente
+	OutputBool studAbilitato_out;
+	
+	//Stato aula ottenuto da prodigit
+	OutputBool statoAula_out;
+	
+	//Operazione scelta dallo studente memorizzata in prodigit
+	OutputBool opStud_out;
 	
 algorithm
 	when initial() then
@@ -29,19 +43,28 @@ algorithm
 	end when;
 	
 	when sample(0,T) then
-		if(aulaAgibile and studenteAbilitato) then
-			if(opStudente) then
-				if(prenotati < maxPosti and prenotati >= 0) then
-					prenotati := pre(prenotati) +1;
-				end if;
-			else 
-				if(prenotati > 0 and prenotati <= maxPosti) then
-					prenotati := pre(prenotati) - 1;
+		if(gompDown) then
+			prodDown := r_down.r1024 <= 0.8;
+			
+		else
+		
+			if(aulaAgibile and studenteAbilitato) then
+				if(opStudente) then
+					if(prenotati < maxPosti and prenotati >= 0) then
+						prenotati := pre(prenotati) +1;
+					end if;
+				else 
+					if(prenotati > 0 and prenotati <= maxPosti) then
+						prenotati := pre(prenotati) - 1;
+					end if;
 				end if;
 			end if;
 		end if;
-	
+		
 		studPren := prenotati;
+		statoAula_out := aulaAgibile;
+		studAbilitato_out := studenteAbilitato;
+		opStud_out := opStudente;
 		
 	end when;
 

@@ -21,14 +21,22 @@ getErrorString();
 loadFile("prodigit.mo");
 getErrorString();
 
-loadFile("MonitorFunctional.mo");
+loadFile("MonitorSafety.mo");
+getErrorString();
+
+loadFile("MonitorLiveness.mo");
 getErrorString();
 
 loadFile("system.mo");
 getErrorString();
 
-simulate(System, stopTime=120);
+simulate(System, stopTime=300);
 getErrorString();
 
-plot({prodigit.maxPosti, gomp.aulaAgibile_out, prodigit.aulaAgibile, prodigit.studenteAbilitato, prodigit.prenotati, prodigit.opStudente, funz.vincolo}, externalWindow = true);
+//Plot sistema prodigit
+plot({prodigit.maxPosti, gomp.aulaAgibile_out, prodigit.aulaAgibile, prodigit.studenteAbilitato, prodigit.prenotati, prodigit.opStudente}, externalWindow = true);
+getErrorString();
+
+//Plot requisiti funzionali
+plot({saf.safety, live.liveness,live.statoLive, live.contPren, live.prenotazioni}, externalWindow = true, title = "Monitor req. funzionali", yLabel = "stato Monitor");
 getErrorString();
