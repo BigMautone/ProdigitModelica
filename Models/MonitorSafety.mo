@@ -15,7 +15,7 @@ block MonitorSafety
 	
 	
 initial equation
-	safety = false;
+	statoSafety = false;
 	
 equation
 	statoSafety = not(prenotazioni <= postiAula);

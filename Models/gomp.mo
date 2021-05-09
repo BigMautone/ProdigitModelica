@@ -1,12 +1,12 @@
 block Gomp
 
-	parameter Real T = 0.8 "equivale ad 1 ora" ; 
+	parameter Real T = 0.8; 
 	
-	parameter Real r_down(sampleTime = T, globalSeed = 745, localSeed = 45221);
+	NumberGenerator r_down(samplePeriod=T, globalSeed = 745, localSeed = 45221);
 	
 	Integer postiAula;
 	
-	Boolean gompDown;
+	//Boolean gompDown;
 	
 	InputBool aulaAgibile_in; //"Stato dell'aula, fornito da aula.mo"
 	
@@ -14,22 +14,30 @@ block Gomp
 	OutputInt postiAula_out; //"Posti aula calcolati dal gomp"
 	
 	OutputBool gompDown_out;
+	
+	OutputInt gompDown_cont;
 
 algorithm
 	when initial() then
 		postiAula := 60;
 		postiAula_out := postiAula;
+		gompDown_cont := 0;
+		gompDown_out := false;
 	end when;
 	
 	when sample(0,T) then
 		
 		postiAula_out := postiAula;
 		aulaAgibile_out := aulaAgibile_in;
+
+		gompDown_out := r_down.r1024 <= 0.1;
 		
-		gompDown := r.r1024 <= 0.2;
-
-
+		if(gompDown_out) then
+			gompDown_cont := pre(gompDown_cont) + 1; 
+		end if;
 	
+		//gompDown_out := gompDown;
+		
 	end when;
 	
 

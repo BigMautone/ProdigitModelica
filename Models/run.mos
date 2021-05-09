@@ -27,6 +27,9 @@ getErrorString();
 loadFile("MonitorLiveness.mo");
 getErrorString();
 
+loadFile("MonitorDown.mo");
+getErrorString();
+
 loadFile("system.mo");
 getErrorString();
 
@@ -34,9 +37,13 @@ simulate(System, stopTime=300);
 getErrorString();
 
 //Plot sistema prodigit
-plot({prodigit.maxPosti, gomp.aulaAgibile_out, prodigit.aulaAgibile, prodigit.studenteAbilitato, prodigit.prenotati, prodigit.opStudente}, externalWindow = true);
+plot({prodigit.maxPosti, gomp.aulaAgibile_out, prodigit.studenteAbilitato, prodigit.prenotati, prodigit.opStudente}, externalWindow = true);
 getErrorString();
 
 //Plot requisiti funzionali
-plot({saf.safety, live.liveness,live.statoLive, live.contPren, live.prenotazioni}, externalWindow = true, title = "Monitor req. funzionali", yLabel = "stato Monitor");
+plot({saf.safety, live.liveness,live.statoLive, live.contPren, live.prenotazioni,live.prodDown_in}, externalWindow = true, title = "Monitor req. funzionali", yLabel = "stato Monitor");
+getErrorString();
+
+//Plot requisiti non funzionali
+plot({down.downReq, down.numProd, down.numGomp}, externalWindow = true, title = "Monitor req. non funzionali", yLabel = "stato Monitor");
 getErrorString();

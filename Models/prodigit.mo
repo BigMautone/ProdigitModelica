@@ -4,8 +4,12 @@ block Prodigit
 	
 	NumberGenerator r_down(samplePeriod=T, globalSeed=450, localSeed=52200);
 	
-	Integer maxPosti; //numero massimo posti dell'aula selezionata
-	Integer prenotati; //studenti prenotati
+	//numero massimo posti dell'aula selezionata
+	Integer maxPosti; 
+	
+	//studenti prenotati
+	Integer prenotati;
+	
 	Boolean prodDown;
 
 	//Campi info gomp
@@ -18,8 +22,11 @@ block Prodigit
 	
 	//Campi info studente
 	
-	InputBool studenteAbilitato; //Boolean che definisce se lo studente può o non può usare prodigit
-	InputBool opStudente; //Se true prenota, altrimenti cancella
+	//Boolean che definisce se lo studente può o non può usare prodigit
+	InputBool studenteAbilitato;
+	
+	//Se true prenota, altrimenti cancella 
+	InputBool opStudente; 
 	
 	//Campi output
 	
@@ -35,19 +42,29 @@ block Prodigit
 	//Operazione scelta dallo studente memorizzata in prodigit
 	OutputBool opStud_out;
 	
+	//Contatore down prodigit
+	OutputInt prodDown_cont;
+	
+	//Se prodigit è down restituisce true, false altrimenti
+	OutputBool prodDown_out;
+	
 algorithm
 	when initial() then
 		prenotati := 0;
 		maxPosti := postiAula_in;
 		studPren := prenotati;
+		prodDown_cont := 0;
 	end when;
 	
 	when sample(0,T) then
-		if(gompDown) then
-			prodDown := r_down.r1024 <= 0.8;
-			
-		else
+		prodDown := false;
 		
+		//Se il gomp è down, allora prodigit lo sarà al 20%
+		if(gompDown) then
+			prodDown := r_down.r1024 <= 0.2;
+		end if;
+		
+		if(not prodDown) then		
 			if(aulaAgibile and studenteAbilitato) then
 				if(opStudente) then
 					if(prenotati < maxPosti and prenotati >= 0) then
@@ -59,13 +76,15 @@ algorithm
 					end if;
 				end if;
 			end if;
+		else 
+			prodDown_cont := pre(prodDown_cont) + 1; //Incremento di 1 il contatore delle volte che prodigit è down
 		end if;
 		
 		studPren := prenotati;
 		statoAula_out := aulaAgibile;
 		studAbilitato_out := studenteAbilitato;
 		opStud_out := opStudente;
-		
+		prodDown_out := prodDown;
 	end when;
 
 

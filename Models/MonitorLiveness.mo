@@ -17,6 +17,8 @@ block MonitorLiveness
 	//Booleano che identifica se lo studente può o non può usare prodigit
 	InputBool studAbilitato;
 	
+	InputBool prodDown_in;
+	
 	//Contatore prenotazioni. Va di pari passo con le prenotazioni del gomp e serve per controllare se il req. è rispettato
 	Integer contPren;
 	
@@ -27,6 +29,7 @@ block MonitorLiveness
 	OutputBool liveness;
 	
 initial equation
+	statoLive = false;
 	liveness = false;
 	contPren = 0;
 	
@@ -35,26 +38,30 @@ initial equation
 algorithm
 	
 	when sample(0,T) then
-		
-		//Controllo se i requisiti per effettuare la prenotazione siano validi
-		if(aulaAgibile and studAbilitato) then
-		
-			if(opStud) then //Lo studente prenota
+		if(not prodDown_in) then
+			//Controllo se i requisiti per effettuare la prenotazione siano validi
+			if(aulaAgibile and studAbilitato) then
 			
-				if(not(postiAula == prenotazioni)) then
-					contPren := pre(contPren) + 1;
-				else
+				if(opStud) then //Lo studente prenota
+				
+					if(not(postiAula == prenotazioni)) then
+						contPren := pre(contPren) + 1;
+					else
+						contPren := prenotazioni;
+					end if;
+					
+					//Se il numero di prenotazioni di prodigit corrispone con quello del monitor il req. è rispettato, no altrimenti
+					statoLive := not(contPren == prenotazioni); 
+
+				else //lo studente cancella la prenotazione
 					contPren := prenotazioni;
+					statoLive := false;
 				end if;
 				
-				statoLive := not(contPren == prenotazioni); //Se il numero di prenotazioni di prodigit corrispone con quello del monitor il req. è rispettato, no altrimenti
-			else //lo studente cancella la prenotazione
+			else 
 				contPren := prenotazioni;
 				statoLive := false;
 			end if;
-		else 
-			contPren := prenotazioni;
-			statoLive := false;
 		end if;
 	end when;
 	
