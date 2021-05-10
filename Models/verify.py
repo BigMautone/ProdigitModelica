@@ -48,10 +48,10 @@ omc.sendExpression("getErrorString()")
 omc.sendExpression("buildModel(System, stopTime = 300)")
 omc.sendExpression("getErrorString()")
 
-random.seed(1)
+#random.seed(1)
 
-numPass = 0
-numFail = 0
+num_pass = 0
+num_fail = 0
 y = False
 
 with open ("log", 'wt') as f:
@@ -67,7 +67,7 @@ with open ("output.txt", 'wt') as f:
 for i in range(100):
 	
 	with open("parametri.txt", "wt") as f:
-		rand1 = random.random()
+		rand1 = np.random()
 		f.write("stud.prob.pren = "+str(rand1)+"\n")
 		f.flush()
 		os.fsync(f)
