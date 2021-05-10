@@ -2,6 +2,8 @@ block Studente
 	
 	parameter Real T = 0.25; //Tempo di refresh stato matricola studente := 30 minuti
 	
+	Real probPren = 0.3;
+	
 	NumberGenerator r_matricola(samplePeriod = T, globalSeed=300, localSeed=12003);
 	NumberGenerator r_P_or_C(samplePeriod = T, globalSeed=250, localSeed=14211);
 	
@@ -16,7 +18,7 @@ algorithm
 			canUse := false;
 		end if;
 		
-		if(r_P_or_C.r1024 >= 0.30) then //Se maggiore uguale di 0.3 prenota, altrimenti cancella
+		if(r_P_or_C.r1024 >= probPren) then //Se maggiore uguale di 0.3 prenota, altrimenti cancella
 			prenOrCanc := true;
 		else
 			prenOrCanc := false;
