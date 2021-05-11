@@ -12,6 +12,7 @@ equation
 
 //Connect del gomp
 connect(gomp.aulaAgibile_in, aula.statoAula);
+connect(gomp.aulaParziale, aula.aulaParziale);
 
 //Connect di prodigit
 connect(prodigit.postiAula_in, gomp.postiAula_out);

@@ -5,10 +5,12 @@ block Gomp
 	NumberGenerator r_down(samplePeriod=T, globalSeed = 745, localSeed = 45221);
 	
 	Integer postiAula;
+	Real probDown = 0.1;
 	
 	//Boolean gompDown;
 	
 	InputBool aulaAgibile_in; //"Stato dell'aula, fornito da aula.mo"
+	InputBool aulaParziale;
 	
 	OutputBool aulaAgibile_out; //"Stato dell'aula"
 	OutputInt postiAula_out; //"Posti aula calcolati dal gomp"
@@ -19,7 +21,8 @@ block Gomp
 
 algorithm
 	when initial() then
-		postiAula := 60;
+		
+		postiAula := AssegnaPosti(aulaParziale);
 		postiAula_out := postiAula;
 		gompDown_cont := 0;
 		gompDown_out := false;
@@ -30,7 +33,7 @@ algorithm
 		postiAula_out := postiAula;
 		aulaAgibile_out := aulaAgibile_in;
 
-		gompDown_out := r_down.r1024 <= 0.1;
+		gompDown_out := r_down.r1024 <= probDown;
 		
 		if(gompDown_out) then
 			gompDown_cont := pre(gompDown_cont) + 1; 
@@ -42,3 +45,18 @@ algorithm
 	
 
 end Gomp;
+
+function AssegnaPosti
+
+	InputBool aulaPar;
+	
+	OutputInt posti;
+
+algorithm	
+	if(aulaPar) then
+		posti := 30;
+	else
+		posti := 60;
+	end if;
+
+end AssegnaPosti;

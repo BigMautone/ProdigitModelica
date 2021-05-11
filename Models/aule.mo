@@ -5,10 +5,10 @@ block Aula
 	
 	
 	NumberGenerator r(samplePeriod = T, globalSeed=124, localSeed=22301);
-	Boolean aulaParziale;
-	
-	OutputBool statoAula;
 
+	OutputBool statoAula;
+	OutputBool aulaParziale;
+	
 algorithm
 	
 	when sample(0,T) then

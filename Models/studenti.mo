@@ -2,7 +2,7 @@ block Studente
 	
 	parameter Real T = 0.25; //Tempo di refresh stato matricola studente := 30 minuti
 	
-	Real probPren = 0.3;
+	parameter Real probPren = 0.3;
 	
 	NumberGenerator r_matricola(samplePeriod = T, globalSeed=300, localSeed=12003);
 	NumberGenerator r_P_or_C(samplePeriod = T, globalSeed=250, localSeed=14211);

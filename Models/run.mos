@@ -45,5 +45,5 @@ plot({saf.safety, live.liveness,live.statoLive, live.contPren, live.prenotazioni
 getErrorString();
 
 //Plot requisiti non funzionali
-plot({down.downReq, down.numProd, down.numGomp}, externalWindow = true, title = "Monitor req. non funzionali", yLabel = "stato Monitor");
-getErrorString();
+//plot({down.downReq, down.numProd, down.numGomp}, externalWindow = true, title = "Monitor req. non funzionali", yLabel = "stato Monitor");
+//getErrorString();
