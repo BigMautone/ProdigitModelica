@@ -7,6 +7,9 @@ import os.path
 
 from OMPython import OMCSessionZMQ
 
+
+os.system("rm -f ./System")      # .... to be on the safe side
+
 omc = OMCSessionZMQ()
 omc.sendExpression("getVersion()")
 omc.sendExpression("cd()")
@@ -62,35 +65,35 @@ with open ("outputMonitorNotFunz.txt", 'wt') as f:
         f.flush()
         os.fsync(f)
         
-for i in range(100):
+for i in range(10):
 	
 	
-	with open("newValues.in", "wt") as f:
+	with open("newValues.txt", 'wt') as f:
 		rand1 = np.random.rand()
 		f.write("gomp.probDown="+str(rand1)+"\n")
 		f.flush()
 		os.fsync(f)
 		
 		
-	with open ("log", 'a') as f:
+	with open ("logMonitorNonFunz", 'a') as f:
 		f.write("\nTest "+str(i)+" : ")
 		f.write("Probabilita' che gomp sia down = " + str(rand1) + "\n")
 		f.flush()
 		os.fsync(f)
 	
-	os.system("./System -overrideFile=newValues.in >> log")
-	time.sleep(1.0) # Delay to avoid races on file re-writings. Can be dropped for non-toy examples.
+	os.system("./System -overrideFile=newValues.txt >> logMonitorNonFunz")
+	#time.sleep(1.0) # Delay to avoid races on file re-writings. Can be dropped for non-toy examples.
 	os.system("rm -f newValues.txt") # .... to be on the safe side
 	
 	down = omc.sendExpression("val(down.downReq, 150.0, \"System_res.mat\")")
 	prodDown = omc.sendExpression("val(down.numProd, 150.0, \"System_res.mat\")")
 	gompDown = omc.sendExpression("val(down.numGomp, 150.0, \"System_res.mat\")")
 	
-	print(str(omc.sendExpression("val(gomp.probDown, 150.0, \"System_res.mat\")")))
+	#print(str(omc.sendExpression("val(gomp.probDown, 150.0, \"System_res.mat\")")))
 	
 	os.system("rm -f System_res.mat")      # .... to be on the safe side
         
-	print("Monitor value at iteration", i, ": ", str(down),"- with probability = ", rand1)
+	print("Monitor value at iteration", i, ": ", str(down),"- with gomp down probability = ", rand1)
 	
 	with open ("outputMonitorNotFunz.txt", 'a') as g:
 		if (not down):

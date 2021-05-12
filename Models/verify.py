@@ -8,6 +8,9 @@ import os.path
 from OMPython import OMCSessionZMQ
 
 
+os.system("rm -f ./System")      # .... to be on the safe side
+
+
 omc = OMCSessionZMQ()
 omc.sendExpression("getVersion()")
 omc.sendExpression("cd()")
@@ -63,11 +66,11 @@ with open ("outputMonitorFunz.txt", 'wt') as f:
         f.flush()
         os.fsync(f)
         
-for i in range(100):
+for i in range(10):
 	
-	with open("newValues.txt", "wt") as f:
+	with open("newValues.txt", 'wt') as f:
 		rand1 = np.random.rand()
-		f.write("stud.probPren = "+str(rand1)+"\n")
+		f.write("stud.probPren="+str(rand1)+"\n")
 		f.flush()
 		os.fsync(f)
 		
@@ -86,11 +89,11 @@ for i in range(100):
 	posti = omc.sendExpression("val(saf.postiAula, 150.0, \"System_res.mat\")")
 	prenotati = omc.sendExpression("val(saf.prenotazioni, 150.0, \"System_res.mat\")")
 	
-	print(str(omc.sendExpression("val(stud.probPren, 150.0, \"System_res.mat\")")))
+	#print(str(omc.sendExpression("val(stud.probPren, 150.0, \"System_res.mat\")")))
 
 	os.system("rm -f System_res.mat")      # .... to be on the safe side
         
-	print("Monitor value at iteration", i, ": ", safety, "- with probability = ", rand1)
+	print("Monitor value at iteration", i, ": ", safety, "- with prenotation probability = ", rand1)
 	
 	with open ("outputMonitorFunz.txt", 'a') as g:
 		if (not safety):

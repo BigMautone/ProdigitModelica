@@ -1,11 +1,12 @@
 block Gomp
 
 	parameter Real T = 0.8; 
+	parameter Real probDown = 0.1;
 	
 	NumberGenerator r_down(samplePeriod=T, globalSeed = 745, localSeed = 45221);
 	
 	Integer postiAula;
-	Real probDown = 0.1;
+
 	
 	//Boolean gompDown;
 	
