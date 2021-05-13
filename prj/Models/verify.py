@@ -48,7 +48,7 @@ omc.sendExpression("getErrorString()")
 omc.sendExpression("loadFile(\"system.mo\")")
 omc.sendExpression("getErrorString()")
 
-omc.sendExpression("buildModel(System, stopTime = 300)")
+omc.sendExpression("buildModel(System, stopTime = 150)")
 omc.sendExpression("getErrorString()")
 
 startTime = time.time()
@@ -86,6 +86,7 @@ for i in range(10000):
 	os.system("rm -f newValues.txt") # .... to be on the safe side
 	
 	safety = omc.sendExpression("val(saf.safety, 150.0, \"System_res.mat\")")
+	liveness = omc.sendExpression("val(live.liveness, 150.0, \"System_res.mat\")")
 	posti = omc.sendExpression("val(saf.postiAula, 150.0, \"System_res.mat\")")
 	prenotati = omc.sendExpression("val(saf.prenotazioni, 150.0, \"System_res.mat\")")
 	
@@ -93,16 +94,16 @@ for i in range(10000):
 
 	os.system("rm -f System_res.mat")      # .... to be on the safe side
         
-	print("Monitor value at iteration", i, ": ", safety, "- with prenotation probability = ", rand1)
+	print("Monitor value at iteration", i, ": safety =", safety, " liveness = ", liveness, "- with prenotation probability = ", rand1)
 	
 	with open ("outputMonitorFunz.txt", 'a') as g:
-		if (not safety):
+		if (not safety and not liveness):
 			num_pass = num_pass + 1.0
-			g.write("Safety["+str(i)+"] = "+str(safety)+": test passato con probabilita' di prenotazione = "+str(rand1)+
+			g.write("Safety["+str(i)+"] = "+str(safety)+" Liveness["+str(i)+"] = "+str(liveness)+": test passato con probabilita' di prenotazione = "+str(rand1)+
 			" (Numero posti disponibili nell'aula = "+str(posti)+ "; Studenti prenotati =  "+str(prenotati)+")\n")
 		else:
 			num_fail = num_fail + 1.0
-			g.write("Safety["+str(i)+"] = "+str(safety)+": testo non passato con probabilita' di prenotazione = "+str(rand1)+
+			g.write("Safety["+str(i)+"] = "+str(safety)+" Liveness["+str(i)+"] = "+str(liveness)+"S: test non passato con probabilita' di prenotazione = "+str(rand1)+
 		" (Numero posti disponibili nell'aula = "+str(posti)+ "; Studenti prenotati =  "+str(prenotati)+")\n")
 		g.flush()
 		os.fsync(g)

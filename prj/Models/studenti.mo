@@ -1,6 +1,6 @@
 block Studente
 	
-	parameter Real T = 0.25; //Tempo di refresh stato matricola studente := 30 minuti
+	parameter Real T = 0.5; //Tempo di refresh stato matricola studente := 30 minuti
 	
 	parameter Real probPren = 0.3;
 	
@@ -18,10 +18,10 @@ algorithm
 			canUse := false;
 		end if;
 		
-		if(r_P_or_C.r1024 >= probPren) then //Se maggiore uguale di 0.3 prenota, altrimenti cancella
-			prenOrCanc := true;
-		else
+		if(r_P_or_C.r1024 < probPren) then //Se maggiore uguale di 0.3 prenota, altrimenti cancella
 			prenOrCanc := false;
+		else
+			prenOrCanc := true;
 		end if;
 	end when;
 	

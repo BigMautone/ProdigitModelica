@@ -47,7 +47,7 @@ omc.sendExpression("getErrorString()")
 omc.sendExpression("loadFile(\"system.mo\")")
 omc.sendExpression("getErrorString()")
 
-omc.sendExpression("buildModel(System, stopTime = 300)")
+omc.sendExpression("buildModel(System, stopTime = 150)")
 omc.sendExpression("getErrorString()")
 
 startTime = time.time()
@@ -65,7 +65,7 @@ with open ("outputMonitorNotFunz.txt", 'wt') as f:
         f.flush()
         os.fsync(f)
         
-for i in range(1000):
+for i in range(100):
 	
 	
 	with open("newValues.txt", 'wt') as f:

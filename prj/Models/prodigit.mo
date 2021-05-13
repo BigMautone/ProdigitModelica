@@ -92,30 +92,6 @@ algorithm
 end Prodigit;
 
 
-//Operazione di prenotazione da parte di uno studente  
-function Prenota
-
-	InputInt p_in;
-	
-	OutputInt p_out;
-	
-algorithm
-	p_out := p_in - 1;
-	
-end Prenota;
-
-
-//Funzione di cancellazione di una prenotazione da parte di uno studente
-function CancellaPrenotazione
-	
-	InputInt p_in;
-
-	OutputInt p_out;
-
-algorithm
-	p_out := p_in + 1;
-	
-end CancellaPrenotazione;
 
 
 
