@@ -1,18 +1,18 @@
 block Gomp
 
 	parameter Real T = 1; 
+	
+	//Probabilità che il gomp sia down
 	parameter Real probDown = 0.1;
 	
 	NumberGenerator r_down(samplePeriod=T, globalSeed = 745, localSeed = 45221);
 	
 	Integer postiAula;
-
-	//Boolean gompDown;
 	
 	InputBool aulaAgibile_in; //"Stato dell'aula, fornito da aula.mo"
 	
-	OutputBool aulaAgibile_out; //"Stato dell'aula"
-	OutputInt postiAula_out; //"Posti aula calcolati dal gomp"
+	OutputBool aulaAgibile_out; //Stato dell'aula
+	OutputInt postiAula_out; //Posti aula calcolati dal gomp
 	
 	OutputBool gompDown_out;
 	
@@ -37,7 +37,6 @@ algorithm
 			gompDown_cont := pre(gompDown_cont) + 1; 
 		end if;
 	
-		//gompDown_out := gompDown;
 		
 	end when;
 	

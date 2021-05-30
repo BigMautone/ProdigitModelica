@@ -12,7 +12,7 @@ block Prodigit
 	
 	Boolean prodDown;
 
-	//Campi info gomp
+	//info gomp down
 	InputBool gompDown;
 
 	//Campi info aula
